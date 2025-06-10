@@ -16,7 +16,7 @@ else()
     set(USERHOME $ENV{HOME})
 endif()
 set(sdkVersion 2.1.1)
-set(toolchainVersion 14_2_Rel1)
+set(toolchainVersion 13_2_Rel1)
 set(picotoolVersion 2.1.1)
 set(picoVscode ${USERHOME}/.pico-sdk/cmake/pico-vscode.cmake)
 if (EXISTS ${picoVscode})
@@ -42,6 +42,8 @@ add_executable( synth_audio
 pico_set_program_name(synth_audio "synth_audio")
 pico_set_program_version(synth_audio "0.1")
 
+target_sources(synth_audio PRIVATE main.c include/ssd1306/ssd1306.c)
+
 # Modify the below lines to enable/disable output over UART/USB
 pico_enable_stdio_uart(synth_audio 0)
 pico_enable_stdio_usb(synth_audio 1)
@@ -63,6 +65,8 @@ target_link_libraries(synth_audio
         hardware_adc
         hardware_dma
         hardware_pwm
+        m
+        hardware_i2c
 )
 
 pico_add_extra_outputs(synth_audio)
